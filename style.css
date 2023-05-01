@@ -1,0 +1,68 @@
+.cartao-nit {
+    margin-top: 2cm;
+    margin-left: 30%;
+    width: 9cm;
+    height: 5cm;
+    border: 2px solid black;
+    padding-left: 6px;
+}
+
+.logo-inss {
+    width: 2.4cm;
+    height: 1.2cm;
+    border: 1px solid rgb(173, 171, 171);
+    background-image: url('img/INSS.png');
+    background-size: cover;
+
+}
+
+.logo-and-title {
+
+ margin: 0;
+ position: fixed;
+ display: flex;
+}
+div .title{
+    width: 7.6cm;
+    text-align: center;
+    margin-left: 2cm;
+    margin-top: -1cm;
+
+}
+
+.corpo {
+
+display: block;
+margin-top: -0.3cm;
+
+}
+
+.nit{
+    display: block;
+    margin-top: 0.4cm;
+
+}
+
+.name {
+    display: block;
+    margin-top: -0.3cm;
+}
+
+.cpf {
+    display: block;
+    margin-top: -0.1cm;
+}
+
+.data{
+
+    display: block;
+    margin-top: -0.1cm;
+}
+
+
+* {
+
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
