@@ -3,9 +3,15 @@ from selenium.webdriver.common.by import By
 from time import sleep
 import json
 import os
-browser = webdriver.Chrome()
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import webbrowser
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+chrome_options = Options()
+chrome_options.add_argument("--disable-infobars")
+chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+chrome_options.add_experimental_option('useAutomationExtension', False)
+browser = webdriver.Chrome(chrome_options=chrome_options)
 browser.get('https://cnisnet.inss.gov.br/cnisinternet/faces/pages/index.xhtml')
 res = True
 mae = input ("Digite o nome da mãe: ")
@@ -13,17 +19,19 @@ nome = input ("Digite o nome: ")
 data_nasc = input ("Digite a data de nascimento: ")
 cpf = input ("Digite o CPF: ")
 #https://cnisnet.inss.gov.br/cnisinternet/faces/pages/perfil.xhtml;jsessionid=mG6dkPJZL4T15p2vKdRtnK1X4CdMVzx2VgdNymvgptnHXbqPj1gD!-231581761
-url = browser.current_url
-url_list = url.split(';')
-url2 = url_list[0]
+
 nit = ""
 resultado_list = []
-print (browser.current_url)
-print (url2)
-def executar_script():
+def executar_script(browser, nit):
+    url = browser.current_url
+    url_list = url.split(';')
+    url2 = url_list[0]
     if url2 != 'https://cnisnet.inss.gov.br/cnisinternet/faces/pages/perfil.xhtml':
+        print("Fechando navegador")
         browser.close()
-        browser.get('https://cnisnet.inss.gov.br/cnisinternet/faces/pages/perfil.xhtml')
+        sleep(5)
+        browser = webdriver.Chrome(chrome_options=chrome_options)
+        browser.get('https://cnisnet.inss.gov.br/cnisinternet/faces/pages/index.xhtml')
     browser.find_element(By.ID, 'formEscolhaPerfis:perfilCidadao').click()
     sleep(2)
     browser.find_element(By.XPATH, '//*[@id="menu"]/ul/li/a').click()
@@ -39,7 +47,8 @@ def executar_script():
     resultado = browser.find_element(By.CLASS_NAME, 'ui-messages-error-detail').text
     print (resultado)
     resultado_list = resultado.split(' ')
-def verificador():
+    nit = resultado_list[22]
+def verificador(nit):
     if nit.isdigit():
         print (f"{nit} é um número")
         nit_cartao = nit
@@ -70,14 +79,10 @@ def verificador():
     else:
         pass
 
-
-
-
 while res:
     try:
-        executar_script()
-        nit = resultado_list[22]
-        verificador()
+        executar_script(browser, nit)
+        verificador(nit)
     except (IndexError, TypeError) as e:
         print (e)
         print (f"NIT não encontrado")
